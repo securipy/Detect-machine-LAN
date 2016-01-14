@@ -128,7 +128,7 @@ class DetectMachineLan():
 		parser.add_option('-r','--range', action='store', dest='ip', help='Secure network range ')
 		parser.add_option('--wl','--whitelist', action='store', default='whitelist.txt' , dest='whitelist_file', help='File have Mac whitelist ')
 		parser.add_option('-l','--log', action='store_true', default=False, dest='log', help='Log acctions script')
-		parser.add_option('-v','--verbose', action='store_true', default=False, dest='verbose', help='Log acctions script')
+		parser.add_option('-v','--verbose', action='store_true', default=False, dest='verbose', help='Verbose acctions script')
 
 		parser.add_option_group(mac)
 		parser.add_option_group(email)
