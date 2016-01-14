@@ -9,6 +9,7 @@ import re
 import os
 import smtplib
 import time,datetime
+import gtk
 from optparse import OptionError
 from optparse import OptionGroup
 from optparse import OptionParser
@@ -95,6 +96,8 @@ class DetectMachineLan():
 						self.__writeLog(msg)
 		if opts.emailto:
 			self.__sendEmail(alert_mac,opts)
+		if opts.gtk:
+			self.__gtkinfo(alert_mac)
 
 
 
@@ -129,6 +132,8 @@ class DetectMachineLan():
 		parser.add_option('--wl','--whitelist', action='store', default='whitelist.txt' , dest='whitelist_file', help='File have Mac whitelist ')
 		parser.add_option('-l','--log', action='store_true', default=False, dest='log', help='Log acctions script')
 		parser.add_option('-v','--verbose', action='store_true', default=False, dest='verbose', help='Verbose acctions script')
+		parser.add_option('-g','--gui', action='store_true', default=False, dest='gtk', help='GTK Windows with info')
+
 
 		parser.add_option_group(mac)
 		parser.add_option_group(email)
@@ -176,6 +181,19 @@ class DetectMachineLan():
 		problems = server.sendmail(opts.user, opts.emailto, message)
 		print problems
 		server.quit()
+
+	def __gtkinfo(self,alert_mac):
+		parent = None
+		if alert_mac:
+			md = gtk.MessageDialog(parent, 
+				gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_WARNING, 
+				gtk.BUTTONS_CLOSE, 'List macs: \n '+str(alert_mac))
+		else:
+			md = gtk.MessageDialog(parent, 
+				gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_INFO, 
+				gtk.BUTTONS_CLOSE, "No intruders - All machines known")
+		md.run()
+
 
 	def __consoleMessage(self,message):
 		ts = time.time()
